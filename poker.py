@@ -6,7 +6,7 @@ from time import sleep		#sleepを使うため
 import sys
 import os
 import random	#乱数を得るためのimport
- 
+
 SCREEN_SIZE = (1280, 720)	#スクリーンのサイズを決める変数
 #グローバル変数
 Card1 = [0,0,0,0,0]
@@ -22,24 +22,37 @@ pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE)
 pygame.display.set_caption(u"トランプゲーム")
 
-def load_image(filename,colorkey=None):		#画像を読み込むための関数定義開始
-	filename = os.path.join("carddata",filename)
+def load_image(filename, colorkey=None, use_cardsize=True):
+	"""
+	画像を読み込むための関数
+	"""
+	
+	# ファイルパスを作成し，カードを読み込む
+	filename = os.path.join("carddata", filename)
 	try:
 		image = pygame.image.load(filename)
+	# パスが正しくなかった場合は終了する
 	except pygame.error:
 		print("Cannot load image:")
 		raise SystemExit
-	image =  image.convert()
+
+	image = image.convert()
+
+	# カード画像を表示する際は，自動的にサイズを調整する
+	if use_cardsize:
+		image = pygame.transform.scale(image, (218, 320))
+
 	if colorkey is not None:
 		if colorkey is -1:
 			colorkey = image.get_at((0,0))
 		image.set_colorkey(colorkey,RLEACCEL)
 	return image
-#load_image関数定義終了
 
 
-#カードを決める
-def decidecard():     #decidecard関数定義開始
+def decidecard():
+	"""
+	配布するカードを決定する関数
+	"""
 	counter = 0
 	check1 = 0
 	check2 = 0
@@ -311,28 +324,28 @@ def rank_check():
 
 
 	if ranknum == 0:
-		rank = load_image("buta.png")
+		rank = load_image("buta.png", use_cardsize=False)
 	elif ranknum == 1:
-		rank = load_image("onepare.png")
+		rank = load_image("onepare.png", use_cardsize=False)
 	elif ranknum == 2:
-		rank = load_image("twopare.png")
+		rank = load_image("twopare.png", use_cardsize=False)
 	elif ranknum == 3:
-		rank = load_image("threecard.png")
+		rank = load_image("threecard.png", use_cardsize=False)
 	elif ranknum == 4:
 		ranknum = 20
-		rank = load_image("fulhouse.png")
+		rank = load_image("fulhouse.png", use_cardsize=False)
 	elif ranknum == 5:
-		rank = load_image("line.png")
+		rank = load_image("line.png", use_cardsize=False)
 	elif ranknum == 6:
 		ranknum = 40
-		rank = load_image("fourcard.png")
+		rank = load_image("fourcard.png", use_cardsize=False)
 	elif ranknum == 10:
-		rank = load_image("fulash.png")
+		rank = load_image("fulash.png", use_cardsize=False)
 		if line[0] == 1 and line[1] == 1 and  line[2] == 1 and line[3] == 1:
 			ranknum = 70
-			rank = load_image("linefulash.png")
+			rank = load_image("linefulash.png", use_cardsize=False)
 	elif ranknum == 100 :
-		rank = load_image("royal.png")
+		rank = load_image("royal.png", use_cardsize=False)
 	
 
 	print (ranknum)
@@ -355,10 +368,10 @@ def PRINT():   #PRINT関数の定義　
 	global rank
 	cardimage
 	# イメージを用意
-	backImg = load_image("backimg.png") 	#タイトル、背景等	
-	now = load_image("now.png")
-	Hold = load_image("hold.png")		#Holdをカードの下に表示
-	Change = load_image("change.png")	#changeをカードの下に表示
+	backImg = load_image("backimg.png", use_cardsize=False) 	#タイトル、背景等	
+	now = load_image("now.png", use_cardsize=False)
+	Hold = load_image("hold.png", use_cardsize=False)		#Holdをカードの下に表示
+	Change = load_image("change.png", use_cardsize=False)	#changeをカードの下に表示
 	screen.blit(backImg, (0,0))
 	screen.blit(rank, (60,20))	
 	while True:
@@ -409,42 +422,42 @@ def first_check():	#first_checkの関数定義開始
 			if y>=300:
 				if x>=1000:	#5枚目の画像のあたりをクリックした場合
 					if holdchange[4] == 0:
-						screen.blit(load_image("change.png"), (1020,670))
+						screen.blit(load_image("change.png", use_cardsize=False), (1020,670))
 						holdchange[4] =1
 					elif holdchange[4] == 1:
-						screen.blit(load_image("hold.png"), (1020,670))
+						screen.blit(load_image("hold.png", use_cardsize=False), (1020,670))
 						holdchange[4] =0
 
 				if x>= 770 and x<1000:	#4枚目の画像のあたりをクリックした場合	
 					if holdchange[3] == 0:
-						screen.blit(load_image("change.png"), (790,670))
+						screen.blit(load_image("change.png", use_cardsize=False), (790,670))
 						holdchange[3] =1
 					elif holdchange[3] == 1:
-						screen.blit(load_image("hold.png"), (790,670))
+						screen.blit(load_image("hold.png", use_cardsize=False), (790,670))
 						holdchange[3] =0
 
 				if x>= 550 and x<770:	#3枚目の画像のあたりをクリックした場合
 					if holdchange[2] == 0:
-						screen.blit(load_image("change.png"), (560,670))
+						screen.blit(load_image("change.png", use_cardsize=False), (560,670))
 						holdchange[2] =1
 					elif holdchange[2] == 1:
-						screen.blit(load_image("hold.png"), (560,670))
+						screen.blit(load_image("hold.png", use_cardsize=False), (560,670))
 						holdchange[2] =0
 
 				if x>= 300 and x<550:	#2枚目の画像のあたりをクリックした場合
 					if holdchange[1] == 0:
-						screen.blit(load_image("change.png"), (330,670))
+						screen.blit(load_image("change.png", use_cardsize=False), (330,670))
 						holdchange[1] =1
 					elif holdchange[1] == 1:
-						screen.blit(load_image("hold.png"), (330,670))
+						screen.blit(load_image("hold.png", use_cardsize=False), (330,670))
 						holdchange[1] =0
 
 				if x>= 100 and x<300:	#1枚目の画像のあたりをクリックした場合
 					if holdchange[0] == 0:
-						screen.blit(load_image("change.png"), (100,670))
+						screen.blit(load_image("change.png", use_cardsize=False), (100,670))
 						holdchange[0] =1
 					elif holdchange[0] == 1:
-						screen.blit(load_image("hold.png"), (100,670))
+						screen.blit(load_image("hold.png", use_cardsize=False), (100,670))
 						holdchange[0] =0
 			pygame.display.update()								
 			sleep(0.2)
