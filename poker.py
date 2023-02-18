@@ -368,7 +368,7 @@ def PRINT():   #PRINT関数の定義　
 	global rank
 	cardimage
 	# イメージを用意
-	backImg = load_image("backimg.png", use_cardsize=False) 	#タイトル、背景等	
+	backImg = load_image("aozora-1280x720.jpg", use_cardsize=False) 	#タイトル、背景等	
 	now = load_image("now.png", use_cardsize=False)
 	Hold = load_image("hold.png", use_cardsize=False)		#Holdをカードの下に表示
 	Change = load_image("change.png", use_cardsize=False)	#changeをカードの下に表示
