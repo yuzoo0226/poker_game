@@ -221,9 +221,6 @@ def decidecard():
 # decidecard関数定義終了
 
 
-decidecard()  # PRINT関数とrank_check関数より前に一度実行する必要がある。
-
-
 def rank_check():
     global rank
     global ranknum
@@ -254,21 +251,21 @@ def rank_check():
     devided_card3 = carddata[3] % 13
     devided_card4 = carddata[4] % 13
 
-    line[0] = devided_card4-devided_card3
-    line[1] = devided_card3-devided_card2
-    line[2] = devided_card2-devided_card1
-    line[3] = devided_card1-devided_card0
+    line[0] = devided_card4 - devided_card3
+    line[1] = devided_card3 - devided_card2
+    line[2] = devided_card2 - devided_card1
+    line[3] = devided_card1 - devided_card0
 
-    pare1 = devided_card4-devided_card3
-    pare2 = devided_card4-devided_card2
-    pare3 = devided_card4-devided_card1
-    pare4 = devided_card4-devided_card0
-    pare5 = devided_card3-devided_card2
-    pare6 = devided_card3-devided_card1
-    pare7 = devided_card3-devided_card0
-    pare8 = devided_card2-devided_card1
-    pare9 = devided_card2-devided_card0
-    pare10 = devided_card1-devided_card0
+    pare1 = devided_card4 - devided_card3
+    pare2 = devided_card4 - devided_card2
+    pare3 = devided_card4 - devided_card1
+    pare4 = devided_card4 - devided_card0
+    pare5 = devided_card3 - devided_card2
+    pare6 = devided_card3 - devided_card1
+    pare7 = devided_card3 - devided_card0
+    pare8 = devided_card2 - devided_card1
+    pare9 = devided_card2 - devided_card0
+    pare10 = devided_card1 - devided_card0
 
     if pare1 == 0:
         ranknum += 1
@@ -345,43 +342,36 @@ def rank_check():
     print(ranknum)
 
 
-rank_check()
-
-
 def doubleup():
 
     global ranknum
 
 
-def PRINT():  # PRINT関数の定義　
+def print_cards():  # PRINT関数の定義　
     num = 0
     global rank
     cardimage
     # イメージを用意
     backImg = load_image("aozora-1280x720.jpg", use_cardsize=False)  # タイトル、背景等
-    now = load_image("now.png", use_cardsize=False)
+    # now = load_image("now.png", use_cardsize=False)
     Hold = load_image("hold.png", use_cardsize=False)  # Holdをカードの下に表示
-    Change = load_image("change.png", use_cardsize=False)  # changeをカードの下に表示
+    # Change = load_image("change.png", use_cardsize=False)  # changeをカードの下に表示
     screen.blit(backImg, (0, 0))
     screen.blit(rank, (60, 20))
     while True:
-        screen.blit(cardimage[num], ((num*230+80), 350))  # 五回カードを表示
-        screen.blit(Hold, ((num*230+100), 670))
+        screen.blit(cardimage[num], ((num * 230 + 80), 350))  # 五回カードを表示
+        screen.blit(Hold, ((num * 230 + 100), 670))
         num += 1
         if num == 5:  # 五回表示したら終了
             break
 
     pygame.display.update()
 
-# PRINT関数定義終了
 
-
-PRINT()
-
-
-def first_check():  # first_checkの関数定義開始
+def first_check():
     global shaful
     global ranknum
+
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -392,7 +382,7 @@ def first_check():  # first_checkの関数定義開始
                     shaful = 1
                     decidecard()  # カードの再シャッフル
                     rank_check()
-                    PRINT()  # 再表示
+                    print_cards()  # 再表示
 
                     holdchange[4] = 0
                     holdchange[3] = 0
@@ -465,5 +455,8 @@ def first_check():  # first_checkの関数定義開始
             sleep(0.2)
 
 
-# first_check関数定義終了
-first_check()
+if __name__ == "__main__":
+    decidecard()  # PRINT関数とrank_check関数より前に一度実行する必要がある。
+    rank_check()
+    print_cards()
+    first_check()
